@@ -33,5 +33,11 @@ public class DaoposgresFactory extends DaoFactory{
     public DaoViaje getViajeDao() {
         return new DaoViajePosgres(bd);
     }
+
+    @Override
+    public DaoReserva getReservaDao() {
+        return new DaoReservaPosgres(bd);
+    }
+    
     
 }

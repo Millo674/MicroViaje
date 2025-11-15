@@ -13,6 +13,7 @@ public abstract class DaoFactory {
     public static final int Mongodb = 2;
     
     public abstract DaoViaje getViajeDao();
+    public abstract DaoReserva getReservaDao();
     
     public static DaoFactory getDaoFactory(int tipoBD){
         switch (tipoBD) {
