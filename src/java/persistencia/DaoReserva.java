@@ -4,6 +4,7 @@
  */
 package persistencia;
 
+import java.util.List;
 import modelo.Reserva;
 
 /**
@@ -12,5 +13,6 @@ import modelo.Reserva;
  */
 public interface DaoReserva {
     void guardarReserva (Reserva reserva);
-    
+    Reserva buscarPorId(int id);
+    List<Reserva> listarTodos();
 }

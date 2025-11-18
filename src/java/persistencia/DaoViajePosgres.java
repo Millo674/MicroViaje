@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.*;
+import java.util.ArrayList;
 /**
  *
  * @author Camilo
@@ -21,11 +23,6 @@ public class DaoViajePosgres implements DaoViaje {
 
     public DaoViajePosgres(Connection bd) {
         this.bd = bd;
-    }
-    
-    @Override
-    public List<Viaje> listarviajes(int idconductor) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -46,6 +43,58 @@ public class DaoViajePosgres implements DaoViaje {
 
         } catch (SQLException e) {
         }
+    }
+
+    @Override
+    public Viaje buscarPorId(int id) {
+        String sql = "SELECT * FROM viaje WHERE id = ?";
+
+        try (PreparedStatement ps = bd.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return new Viaje(
+                    rs.getInt("id"),
+                    rs.getString("origen"),
+                    rs.getString("destino"),
+                    rs.getTimestamp("fecha_hora_viaje").toLocalDateTime(),
+                    rs.getInt("id_vehiculos"),
+                    rs.getInt("id_conductor")
+                );
+            }
+            return null;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error buscando viaje: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Viaje> listarTodos() {
+        String sql = "SELECT * FROM viaje";
+        List<Viaje> lista = new ArrayList<>();
+
+        try (PreparedStatement ps = bd.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Viaje v = new Viaje(
+                    rs.getInt("id"),
+                    rs.getString("origen"),
+                    rs.getString("destino"),
+                    rs.getTimestamp("fecha_hora_viaje").toLocalDateTime(),
+                    rs.getInt("id_vehiculos"),
+                    rs.getInt("id_conductor")
+                );
+                lista.add(v);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error listando viajes: " + e.getMessage(), e);
+        }
+
+        return lista;
     }
 }
     

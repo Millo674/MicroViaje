@@ -12,6 +12,7 @@ import modelo.Viaje;
  * @author Camilo
  */
 public interface DaoViaje {
-    List<Viaje> listarviajes (int idconductor);
     void guardarViaje(Viaje viaje);
+     Viaje buscarPorId(int id);
+    List<Viaje> listarTodos();
 }

@@ -6,6 +6,7 @@ package servicio;
 
 import dto.ViajeDto;
 import java.time.LocalDateTime;
+import java.util.List;
 import modelo.Viaje;
 import persistencia.DaoFactory;
 import persistencia.DaoViaje;
@@ -32,5 +33,12 @@ public class ViajeServicio {
         );
 
         daoPostgres.guardarViaje(v);
+    }
+    
+    public Viaje BuscarViaje(int id){
+        return daoPostgres.buscarPorId(id);
+    }
+    public List<Viaje> listarViaje(){
+        return daoPostgres.listarTodos();
     }
 }
